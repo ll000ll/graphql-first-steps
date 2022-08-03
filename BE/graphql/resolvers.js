@@ -4,18 +4,18 @@ const User = require("../models/user")
 module.exports = {
   createUser: async function ({ userInput }) {
     const existingUser = await User.findOne({ email: userInput.email })
-
+    
     if (existingUser) {
       const error = new Error("User exists already")
       throw error
     }
 
-    const hashedPass = bcrypt.hash(userInput.password, 12)
-    const user = new User({
-      email: userInput.email,
-      name: userInput.name,
-      password: hashedPass,
-    })
+        const hashedPass = await bcrypt.hash(userInput.password, 12)
+        const user = new User({
+          email: userInput.email,
+          name: userInput.name,
+          password: hashedPass,
+        })
 
     const createdUser = await user.save()
     // use ._doc to get rid of mongoose metadata and ._od to transform from ObjectId => String
