@@ -5,6 +5,8 @@ const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const multer = require("multer")
 
+require("dotenv").config()
+
 const app = express()
 
 const fileStorage = multer.diskStorage({
@@ -54,9 +56,7 @@ app.use((error, req, res, next) => {
 })
 
 mongoose
-  .connect(
-    "mongodb+srv://maxn:9u4biljMQc4jjqbe@cluster0-ntrwp.mongodb.net/messages?retryWrites=true"
-  )
+  .connect(process.env.MONGO_DB_STRING)
   .then((result) => {
     const server = app.listen(8080)
   })
